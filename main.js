@@ -62,6 +62,12 @@ function sendMessage(){
 
 function showHistoric(message, response){
     var historic = document.getElementById('historic')
+
+
+    
+
+    
+
     //mensagens do usuario
     var boxUserMessage = document.createElement('div')
     boxUserMessage.className = 'box-user-message'
@@ -94,10 +100,35 @@ function showHistoric(message, response){
     listenButton.className = 'btn-listem'
     listenButton.innerHTML = 'Ouvir';
     listenButton.addEventListener('click', function() {
-        alert('button de ouvir')
+        // alert('button de ouvir')
+
+        speech.text = response;
+        window.speechSynthesis.speak(speech);
+
         // Adicione aqui a lógica para reproduzir o texto em fala
         // Por exemplo, você pode usar uma API de síntese de voz, como a Web Speech API
     });
+
+    //speech ====>
+    let speech = new SpeechSynthesisUtterance();
+    let voices = [];
+    let voiceSelect = document.querySelector('select');
+
+    window.speechSynthesis.onvoiceschanged = () => {
+        voices = window.speechSynthesis.getVoices();
+        speech.voice = voices[0];
+
+         // Limpa as opções existentes
+    voiceSelect.innerHTML = '';
+
+        voices.forEach((voice, i) => 
+        (voiceSelect.options[i] = new option(voice.name, i)));
+    };
+
+    voiceSelect.addEventListener('change',() => {
+        speech.voice = voices[voiceSelect.value];
+    });
+
     divBtn.appendChild(listenButton);
 
       //veridicacao 

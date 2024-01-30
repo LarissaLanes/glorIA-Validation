@@ -29,10 +29,31 @@ body{
 }
 
 .header{
+    display: flex;
+    justify-content:space-between;
     background-color: purple ;
     border-radius: 10px 10px 0px 0px;
     color: var(--white);
     font-size: 1.4rem;
+    padding: 1rem;
+}
+
+select{
+    flex: 0.5;
+    color: #fff;
+    background-color: #403d84;
+    height: 50px;
+    padding: 0 20px;
+    outline: 0;
+    border: 0;
+    border-radius: 20px;
+    appearance: none;
+    background-image: url(img/arrow.png); 
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position-x: calc(100% - 20px) ;
+    background-position-y: 20px;
+
 }
 
 .footer{
