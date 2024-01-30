@@ -1,2 +1,2 @@
 # glorIA
-Projeot desenvolvido em conjunto no programa de inovação Ideia Globo
+Projeto desenvolvido em conjunto no programa de inovação Ideia Globo
