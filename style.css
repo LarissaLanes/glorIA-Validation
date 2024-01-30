@@ -26,6 +26,8 @@ body{
     border-radius: 10px;
     text-align: center;
 
+    
+
 }
 
 .header{
@@ -157,4 +159,48 @@ input{
     width: 6rem;
     color: red;
     margin-left: 0px; 
+}
+
+#loginText{
+    display: none;
+    background: transparent;
+    
+
+}
+
+b{
+    cursor: pointer;
+    color: red;
+}
+
+.filterGpt{
+    /* border: solid 1px green; */
+    align-items: center;
+    
+  
+}
+
+ul{
+    display: flex;
+    list-style: none;
+    margin-bottom: 0px;
+
+
+}
+
+li{
+    /* border: solid 1px blue; */
+
+    
+   
+}
+
+#buttonList{
+    border: solid 1px red;
+    border-radius: 30px;
+    margin: 5px;
+    height: 1.5rem;
+    width: 7rem;
+    background: transparent;
+
 }

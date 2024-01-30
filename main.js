@@ -7,6 +7,9 @@ var primeiroContato = "converse comigo agindo como a GlorIA uma assistente intel
 var ultimoContato = `É isso aí ${nameUser} na dúvida, fala com a GlorIA`
 var ultimoContato2 = "Até a próxima conversa! Fique à vontade para me chamar novamente"
 var nameChat = "Sempre diga que seu nome é GlorIA"
+//
+let messageCount = 0;
+
 function sendMessage(){
    var message = document.getElementById('message-input')
    
@@ -19,12 +22,29 @@ function sendMessage(){
 
    var status = document.getElementById('status')
    var btnSubmit = document.getElementById('btn-submit')
+   var loginText = document.getElementById('loginText')
 
    status.style.display = 'block'
    status.innerHTML = 'carregando...'
    btnSubmit.disabled = true
    btnSubmit.style.cursor = 'not-allowed'
    message.disabled = true
+
+   loginText.style.display = 'none'
+
+   messageCount++;
+
+   if (messageCount >= 3) {
+    btnSubmit.style.opacity = 0.5
+    btnSubmit.disabled = true
+    loginText.style.display = 'block'
+    
+
+
+}
+
+
+  
 
    fetch("https://api.openai.com/v1/completions", {
     method: 'POST',
@@ -54,7 +74,7 @@ function sendMessage(){
     btnSubmit.style.cursor = 'pointer'
     message.disabled = false
     message.value = ""
-    
+
  })
 
 }
@@ -123,11 +143,10 @@ function showHistoric(message, response){
     divBtn.appendChild(listenButton);
 
       //veridicacao 
+
       var verify = document.createElement('p')
       verify.className = 'verify-p'
-      verify.innerHTML = '1 de 3'
-
-      if(response)
+      verify.innerHTML = `${messageCount} de 3`
 
       divBtn.appendChild(verify)
     //
