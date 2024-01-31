@@ -9,6 +9,7 @@ var ultimoContato2 = "Até a próxima conversa! Fique à vontade para me chamar 
 var nameChat = "Sempre diga que seu nome é GlorIA"
 //
 let messageCount = 0;
+var messageLogin = false
 
 function sendMessage(){
    var message = document.getElementById('message-input')
@@ -26,26 +27,19 @@ function sendMessage(){
 
    status.style.display = 'block'
    status.innerHTML = 'carregando...'
-   btnSubmit.disabled = true
+//    btnSubmit.disabled = true
    btnSubmit.style.cursor = 'not-allowed'
-   message.disabled = true
+//    message.disabled = true
 
    loginText.style.display = 'none'
 
    messageCount++;
 
    if (messageCount >= 3) {
-    btnSubmit.style.opacity = 0.5
-    btnSubmit.disabled = true
-    loginText.style.display = 'block'
-    
+    messageLogin = true
 
-
+   
 }
-
-
-  
-
    fetch("https://api.openai.com/v1/completions", {
     method: 'POST',
     headers:{
@@ -65,19 +59,96 @@ function sendMessage(){
     let r = response.choices[0]['text'];
     status.style.display = 'none'
     showHistoric(message.value,r)
+
+    if(messageLogin == true){
+     loginText.style.display = 'block'
+     btnSubmit.disabled = true
+     btnSubmit.style.cursor = 'not-allowed'
+
+
+
+    }
  })
  .catch((e) => {
     console.log('Error ->', e)
  })
  .finally(() => {
-    btnSubmit.disabled = false
+    // btnSubmit.disabled = false
     btnSubmit.style.cursor = 'pointer'
-    message.disabled = false
-    message.value = ""
-
+    document.getElementById('message-input').value = '';
+    // message.disabled = false
  })
-
 }
+
+//envio a partir do botao da lista
+
+function sendMessageFromButton(prompt) {
+    var status = document.getElementById('status')
+    var btnMessageSend = document.querySelectorAll('.filterGpt button');
+
+    status.style.display = 'block'
+    status.innerHTML = 'carregando...'
+
+    var loginText = document.getElementById('loginText')
+
+
+    messageCount++;
+    loginText.style.display = 'none'
+
+
+   if (messageCount >= 3) {
+    messageLogin = true    
+    }
+
+    fetch("https://api.openai.com/v1/completions", {
+        method: 'POST',
+        headers:{
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo-instruct",
+            prompt: `${primeiroContato}minha pergunta:${prompt}`,
+            max_tokens: 2048,
+            temperature: 0.5
+        })
+    })
+    .then((response) => response.json())
+    .then((response) => {
+        let r = response.choices[0]['text'];
+        status.style.display = 'none'
+        showHistoric(prompt, r);
+        if(messageLogin == true){
+            loginText.style.display = 'block'
+            btnMessageSend.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+            });
+            return
+      
+
+        }
+     
+    })
+    .catch((e) => {
+        console.log('Error ->', e);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function showHistoric(message, response){
     var historic = document.getElementById('historic')
@@ -154,3 +225,4 @@ function showHistoric(message, response){
     //scroll para mostrar a ultima mensagem
     historic.scrollTop = historic.scrollHeight
 }
+

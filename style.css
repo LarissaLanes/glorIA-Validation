@@ -7,6 +7,7 @@
 
 body{
     background-color: var(--dark);
+    border: solid 1px var(--dark);
     color: var(--white);
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
@@ -21,13 +22,10 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 600px;
+    width: 300px;
     max-height: 800px;
     border-radius: 10px;
     text-align: center;
-
-    
-
 }
 
 .header{
@@ -174,33 +172,42 @@ b{
 }
 
 .filterGpt{
-    /* border: solid 1px green; */
-    align-items: center;
+    /* border: solid 1px orange; */
     
-  
+
+    
 }
 
 ul{
     display: flex;
     list-style: none;
-    margin-bottom: 0px;
+    margin-bottom: 4px;
+    /* border: solid 1px green; */
+    padding: 0px;
 
 
 }
 
 li{
     /* border: solid 1px blue; */
+    width: 300px;
+    /* display: flex;
+    flex-direction: column; */
 
     
-   
 }
 
-#buttonList{
+#buttonList1, #buttonList2, #buttonList3, #buttonList4{
     border: solid 1px red;
     border-radius: 30px;
-    margin: 5px;
-    height: 1.5rem;
-    width: 7rem;
+    margin: 2px;
     background: transparent;
-
+    overflow: hidden;
+    padding: 5px;
+    box-sizing: border-box;
+    color: red;
+    white-space: nowrap;
+    font-size: 10px;
+    cursor: pointer;
+    
 }
