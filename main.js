@@ -2,11 +2,8 @@
 
 const apiKey = "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"
 
-var nameUser = "Bia"
-var primeiroContato = "converse comigo agindo como a GlorIA uma assistente inteligente de conversa do G1"
-var ultimoContato = `É isso aí ${nameUser} na dúvida, fala com a GlorIA`
-var ultimoContato2 = "Até a próxima conversa! Fique à vontade para me chamar novamente"
-var nameChat = "Sempre diga que seu nome é GlorIA"
+var mensagem1 = "Olá! Eu sou a GlorIA, a assistente inteligente de conversa do G1. Fico feliz em poder ajudá-lo com as suas dúvidas e informações sobre notícias e atualidades. Como posso ser útil para você hoje?"
+var primeiroContato = "Converse como se vc fosse a GlorIA uma assistente inteligente de conversa do G1"
 //
 let messageCount = 0;
 var messageLogin = false
@@ -66,7 +63,7 @@ function sendMessage(){
             loginText.style.display = 'block'
             button.disabled = true;
             button.style.cursor = 'not-allowed';
-            message.disabled = true
+                    message.disabled = true
 
         }
     } else {
@@ -79,7 +76,7 @@ function sendMessage(){
     },
     body: JSON.stringify({
         model: "gpt-3.5-turbo-instruct",
-        prompt: `${message.value}`,
+        prompt: `${primeiroContato}${message.value}`,
         max_tokens: 2048,
         temperature: 0.5
     })
@@ -155,7 +152,7 @@ function sendMessageFromButton(prompt) {
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo-instruct",
-            prompt: `${prompt}`,
+            prompt: `${primeiroContato}${prompt}`,
             max_tokens: 2048,
             temperature: 0.5
         })
