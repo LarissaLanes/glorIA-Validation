@@ -11,33 +11,18 @@ var nameChat = "Sempre diga que seu nome é GlorIA"
 let messageCount = 0;
 var messageLogin = false
 
-// const url = './newsData.json';
-// fetch(url)
-//   .then(response => response.json())
-//   .then(data => {
-//     const newsData = data;
+let newsData; // Declare newsData outside functions
 
-//     // Use newsData nas funções sendMessage e sendMessageFromButton
-//     sendMessage();
-//     sendMessageFromButton(); // Se necessário, chame esta função também
-//   })
-//   .catch(error => {
-//     console.error('Erro ao carregar newsData.json:', error);
-//   });
+fetch('./DB.json')
+  .then(response => response.json())
+  .then(data => {
+    newsData = data.newsData;
 
-
-
-const newsData = [
-    {
-        "title": "oi",
-        "content": "Conteúdo da Notícia 1..."
-    },
-    {
-        "title": "Manchetes do dia",
-        "content": "Conteúdo da Notícia 2..."
-    }
-    // ... Outras notícias
-];
+    // Now you can use newsData in your functions
+    sendMessage();
+    // ...
+  })
+  .catch(error => console.error('Error loading DB.json:', error));
 
 
 
@@ -58,7 +43,7 @@ function sendMessage(){
    status.style.display = 'block'
    status.innerHTML = 'carregando...'
 //    btnSubmit.disabled = true
-   btnSubmit.style.cursor = 'not-allowed'
+//    btnSubmit.style.cursor = 'not-allowed'
 //    message.disabled = true
 
    loginText.style.display = 'none'
@@ -75,6 +60,15 @@ function sendMessage(){
         // Se corresponder, usar o conteúdo da notícia como resposta
         status.style.display = 'none';
         showHistoric(message.value, matchedNews.content);
+        document.getElementById('message-input').value = '';
+
+        if(messageLogin == true){
+            loginText.style.display = 'block'
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            message.disabled = true
+
+        }
     } else {
    fetch("https://api.openai.com/v1/completions", {
     method: 'POST',
@@ -85,7 +79,7 @@ function sendMessage(){
     },
     body: JSON.stringify({
         model: "gpt-3.5-turbo-instruct",
-        prompt: `${primeiroContato}minha pergunta:${message.value}`,
+        prompt: `${message.value}`,
         max_tokens: 2048,
         temperature: 0.5
     })
@@ -97,12 +91,11 @@ function sendMessage(){
     showHistoric(message.value,r)
 
     if(messageLogin == true){
-     loginText.style.display = 'block'
-     btnSubmit.disabled = true
-     btnSubmit.style.cursor = 'not-allowed'
-
-
-
+        loginText.style.display = 'block'
+        button.disabled = true;
+        button.style.cursor = 'not-allowed';
+        message.disabled = true
+            
     }
  })
  .catch((e) => {
@@ -141,6 +134,16 @@ function sendMessageFromButton(prompt) {
         // Se corresponder, usar o conteúdo da notícia como resposta
         status.style.display = 'none';
         showHistoric(prompt, matchedNews.content);
+
+        if(messageLogin == true){
+            loginText.style.display = 'block'
+            btnMessageSend.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+            });
+            return
+        }
+
     } else {
 
     fetch("https://api.openai.com/v1/completions", {
@@ -249,6 +252,7 @@ function showHistoric(message, response){
 
       divBtn.appendChild(verify)
     //
+    
     historic.appendChild(boxGptMessage)
     //scroll para mostrar a ultima mensagem
     historic.scrollTop = historic.scrollHeight

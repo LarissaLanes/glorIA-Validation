@@ -1,0 +1,13 @@
+{
+    "newsData" : [
+        {
+            "title": "oi",
+            "content": "Conteúdo da Notícia 1..."
+        },
+        {
+            "title": "Manchetes do dia",
+            "content": "Conteúdo da Notícia 2..."
+        }
+        
+    ]
+}
