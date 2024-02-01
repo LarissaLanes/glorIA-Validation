@@ -255,3 +255,24 @@ function showHistoric(message, response){
     historic.scrollTop = historic.scrollHeight
 }
 
+function startRecording() {
+    const messageInput = document.getElementById('message-input');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnSpeechToText = document.getElementById('btn-speech-to-text');
+        let recognition = new webkitSpeechRecognition();
+
+    recognition.lang = 'pt-BR'; // Defina o idioma desejado
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        if (event.results.length > 0) {
+            const transcript = event.results[0][0].transcript;
+            messageInput.value = transcript;
+        }
+    };
+
+    //envia a mensagem sem o clique do botao
+    // recognition.onend = function() {
+    //     btnSubmit.click(); // Envie automaticamente após o reconhecimento de voz
+    // };
+}
