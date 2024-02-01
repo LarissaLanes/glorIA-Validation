@@ -11,6 +11,36 @@ var nameChat = "Sempre diga que seu nome é GlorIA"
 let messageCount = 0;
 var messageLogin = false
 
+// const url = './newsData.json';
+// fetch(url)
+//   .then(response => response.json())
+//   .then(data => {
+//     const newsData = data;
+
+//     // Use newsData nas funções sendMessage e sendMessageFromButton
+//     sendMessage();
+//     sendMessageFromButton(); // Se necessário, chame esta função também
+//   })
+//   .catch(error => {
+//     console.error('Erro ao carregar newsData.json:', error);
+//   });
+
+
+
+const newsData = [
+    {
+        "title": "oi",
+        "content": "Conteúdo da Notícia 1..."
+    },
+    {
+        "title": "Manchetes do dia",
+        "content": "Conteúdo da Notícia 2..."
+    }
+    // ... Outras notícias
+];
+
+
+
 function sendMessage(){
    var message = document.getElementById('message-input')
    
@@ -37,9 +67,15 @@ function sendMessage(){
 
    if (messageCount >= 3) {
     messageLogin = true
+    }
 
-   
-}
+    const matchedNews = newsData.find(news => news.title.toLowerCase() === message.value.toLowerCase());
+
+    if (matchedNews) {
+        // Se corresponder, usar o conteúdo da notícia como resposta
+        status.style.display = 'none';
+        showHistoric(message.value, matchedNews.content);
+    } else {
    fetch("https://api.openai.com/v1/completions", {
     method: 'POST',
     headers:{
@@ -79,26 +115,33 @@ function sendMessage(){
     // message.disabled = false
  })
 }
+}
 
 //envio a partir do botao da lista
 
 function sendMessageFromButton(prompt) {
     var status = document.getElementById('status')
+    var loginText = document.getElementById('loginText')
     var btnMessageSend = document.querySelectorAll('.filterGpt button');
 
     status.style.display = 'block'
     status.innerHTML = 'carregando...'
-
-    var loginText = document.getElementById('loginText')
-
-
-    messageCount++;
     loginText.style.display = 'none'
 
+    messageCount++;
 
    if (messageCount >= 3) {
     messageLogin = true    
     }
+
+
+    const matchedNews = newsData.find(news => news.title.toLowerCase() === prompt.toLowerCase());
+
+    if (matchedNews) {
+        // Se corresponder, usar o conteúdo da notícia como resposta
+        status.style.display = 'none';
+        showHistoric(prompt, matchedNews.content);
+    } else {
 
     fetch("https://api.openai.com/v1/completions", {
         method: 'POST',
@@ -109,7 +152,7 @@ function sendMessageFromButton(prompt) {
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo-instruct",
-            prompt: `${primeiroContato}minha pergunta:${prompt}`,
+            prompt: `${prompt}`,
             max_tokens: 2048,
             temperature: 0.5
         })
@@ -119,6 +162,7 @@ function sendMessageFromButton(prompt) {
         let r = response.choices[0]['text'];
         status.style.display = 'none'
         showHistoric(prompt, r);
+
         if(messageLogin == true){
             loginText.style.display = 'block'
             btnMessageSend.forEach(button => {
@@ -126,29 +170,13 @@ function sendMessageFromButton(prompt) {
                 button.style.cursor = 'not-allowed';
             });
             return
-      
-
         }
-     
     })
     .catch((e) => {
         console.log('Error ->', e);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 function showHistoric(message, response){
     var historic = document.getElementById('historic')
